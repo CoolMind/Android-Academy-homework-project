@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="@dimen/movie_actor_width"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:ignore="UseCompoundDrawables"
+    tools:showIn="@layout/activity_movie_details"
+    >
+
+    <ImageView
+        android:id="@+id/photo"
+        android:layout_width="@dimen/movie_actor_width"
+        android:layout_height="@dimen/movie_actor_width"
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/movie_actor"
+        android:src="@drawable/actor1"
+        />
+
+    <TextView
+        android:id="@+id/name"
+        style="@style/RobotoWeight900"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:maxLines="2"
+        android:textColor="@color/gainsboro"
+        tools:text="Robert Downey Jr."
+        />
+
+</LinearLayout>
