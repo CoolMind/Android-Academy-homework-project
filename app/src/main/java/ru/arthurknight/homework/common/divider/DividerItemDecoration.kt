@@ -16,22 +16,19 @@
 package ru.arthurknight.homework.common.divider
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Rect
 import android.graphics.drawable.Drawable
-import android.util.Log
 import android.view.View
 import android.widget.LinearLayout
-import androidx.annotation.NonNull
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 import kotlin.math.roundToInt
 
 /**
  * DividerItemDecoration is a {@link RecyclerView.ItemDecoration} that can be used as a divider
- * between items of a {@link LinearLayoutManager}. It supports both {@link #HORIZONTAL} and
- * {@link #VERTICAL} orientations.
+ * between items of a {@link LinearLayoutManager}. It supports both {@link #LinearLayout.HORIZONTAL} and
+ * {@link #LinearLayout.VERTICAL} orientations.
  *
  * <pre>
  *     mDividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
@@ -44,12 +41,12 @@ import kotlin.math.roundToInt
 //Find out original java version: https://gist.github.com/johnwatsondev/720730cf6b8c59fa6abe4f31dbaf59d7
 
 @SuppressLint("LogNotTimber")
-class DividerItemDecoration(context: Context, orientation: Int, isShowInLastItem: Boolean) :
+class DividerItemDecoration(orientation: Int, isShowInLastItem: Boolean) :
     ItemDecoration() {
     private lateinit var mDivider: Drawable
 
     /**
-     * Current orientation. Either [.HORIZONTAL] or [.VERTICAL].
+     * Current orientation. Either [.LinearLayout.HORIZONTAL] or [.LinearLayout.VERTICAL].
      */
     private var mOrientation = 0
 
@@ -60,10 +57,10 @@ class DividerItemDecoration(context: Context, orientation: Int, isShowInLastItem
      * Sets the orientation for this divider. This should be called if
      * [RecyclerView.LayoutManager] changes orientation.
      *
-     * @param orientation [.HORIZONTAL] or [.VERTICAL]
+     * @param orientation [.LinearLayout.HORIZONTAL] or [.LinearLayout.VERTICAL]
      */
     fun setOrientation(orientation: Int) {
-        require(!(orientation != HORIZONTAL && orientation != VERTICAL)) { "Invalid orientation. It should be either HORIZONTAL or VERTICAL" }
+        require(!(orientation != LinearLayout.HORIZONTAL && orientation != LinearLayout.VERTICAL)) { "Invalid orientation. It should be either LinearLayout.HORIZONTAL or LinearLayout.VERTICAL" }
         mOrientation = orientation
     }
 
@@ -80,7 +77,7 @@ class DividerItemDecoration(context: Context, orientation: Int, isShowInLastItem
         if (parent.layoutManager == null) {
             return
         }
-        if (mOrientation == VERTICAL) {
+        if (mOrientation == LinearLayout.VERTICAL) {
             drawVertical(c, parent)
         } else {
             drawHorizontal(c, parent)
@@ -103,10 +100,10 @@ class DividerItemDecoration(context: Context, orientation: Int, isShowInLastItem
         for (i in 0 until childCount) {
             val child = parent.getChildAt(i)
             val decoratedBottom = parent.layoutManager!!.getDecoratedBottom(child)
-            val bottom = decoratedBottom + Math.round(child.translationY)
-            val top = bottom - mDivider!!.intrinsicHeight
-            mDivider!!.setBounds(left, top, right, bottom)
-            mDivider!!.draw(canvas)
+            val bottom = decoratedBottom + child.translationY.roundToInt()
+            val top = bottom - mDivider.intrinsicHeight
+            mDivider.setBounds(left, top, right, bottom)
+            mDivider.draw(canvas)
         }
         canvas.restore()
     }
@@ -128,9 +125,9 @@ class DividerItemDecoration(context: Context, orientation: Int, isShowInLastItem
             val child = parent.getChildAt(i)
             val decoratedRight = parent.layoutManager!!.getDecoratedRight(child)
             val right = decoratedRight + child.translationX.roundToInt()
-            val left = right - mDivider!!.intrinsicWidth
-            mDivider!!.setBounds(left, top, right, bottom)
-            mDivider!!.draw(canvas)
+            val left = right - mDivider.intrinsicWidth
+            mDivider.setBounds(left, top, right, bottom)
+            mDivider.draw(canvas)
         }
         canvas.restore()
     }
@@ -141,56 +138,27 @@ class DividerItemDecoration(context: Context, orientation: Int, isShowInLastItem
         parent: RecyclerView,
         state: RecyclerView.State
     ) {
-        if (mDivider == null) {
-            outRect.setEmpty()
-            return
-        }
         val itemPosition = (view.layoutParams as RecyclerView.LayoutParams).viewLayoutPosition
         val itemCount = state.itemCount
         if (mIsShowInLastItem) {
-            if (mOrientation == VERTICAL) {
-                outRect[0, 0, 0] = mDivider!!.intrinsicHeight
+            if (mOrientation == LinearLayout.VERTICAL) {
+                outRect[0, 0, 0] = mDivider.intrinsicHeight
             } else {
-                outRect[0, 0, mDivider!!.intrinsicWidth] = 0
+                outRect[0, 0, mDivider.intrinsicWidth] = 0
             }
         } else if (itemPosition == itemCount - 1) {
             // We didn't set the last item when mIsShowInLastItem's value is false.
             outRect.setEmpty()
         } else {
-            if (mOrientation == VERTICAL) {
-                outRect[0, 0, 0] = mDivider!!.intrinsicHeight
+            if (mOrientation == LinearLayout.VERTICAL) {
+                outRect[0, 0, 0] = mDivider.intrinsicHeight
             } else {
-                outRect[0, 0, mDivider!!.intrinsicWidth] = 0
+                outRect[0, 0, mDivider.intrinsicWidth] = 0
             }
         }
     }
 
-    companion object {
-        const val HORIZONTAL = LinearLayout.HORIZONTAL
-        const val VERTICAL = LinearLayout.VERTICAL
-        private const val TAG = "DividerItem"
-        private val ATTRS = intArrayOf(android.R.attr.listDivider)
-    }
-
-    /**
-     * Creates a divider [RecyclerView.ItemDecoration] that can be used with a
-     * [LinearLayoutManager].
-     *
-     * @param context          Current context, it will be used to access resources.
-     * @param orientation      Divider orientation. Should be [.HORIZONTAL] or [.VERTICAL].
-     * @param isShowInLastItem Whether show the divider in last item.
-     */
     init {
-//        val a = context.obtainStyledAttributes(ATTRS)
-//        mDivider = a.getDrawable(0)
-//        if (mDivider == null) {
-//            Log.w(
-//                TAG,
-//                "@android:attr/listDivider was not set in the theme used for this "
-//                        + "DividerItemDecoration. Please set that attribute all call setDrawable()"
-//            )
-//        }
-//        a.recycle()
         setOrientation(orientation)
         mIsShowInLastItem = isShowInLastItem
     }

@@ -1,12 +1,12 @@
 package ru.arthurknight.homework
 
 import android.os.Bundle
+import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ru.arthurknight.homework.common.divider.DividerItemDecoration
-import ru.arthurknight.homework.common.divider.DividerItemDecoration.Companion.HORIZONTAL
 
 class MovieDetailsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -18,7 +18,7 @@ class MovieDetailsActivity : AppCompatActivity() {
 
     private fun createActorsList() {
         val actorsList = findViewById<RecyclerView>(R.id.movie_actors_list)
-        val divider = DividerItemDecoration(this, HORIZONTAL, false)
+        val divider = DividerItemDecoration(LinearLayout.HORIZONTAL, false)
         divider.setDrawable(ContextCompat.getDrawable(this, R.drawable.movie_list_divider)!!)
         val adapter = MovieDetailsAdapter()
         val items = arrayListOf(
