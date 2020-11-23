@@ -2,6 +2,7 @@ package ru.arthurknight.homework
 
 import android.os.Bundle
 import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,6 +14,12 @@ class MovieDetailsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_movie_details)
 
+        findViewById<TextView>(R.id.movie_age).text = "13+"
+        findViewById<TextView>(R.id.movie_title).text = "Avengers:\nEnd Game"
+        findViewById<TextView>(R.id.movie_genre).text = "Action, Adventure, Fantasy"
+        findViewById<TextView>(R.id.movie_reviews).text = "125 Reviews"
+        findViewById<TextView>(R.id.movie_description).text =
+            "After the devastating events of Avengers: Infinity War, the universe is in ruins. With the help of remaining allies, the Avengers assemble once more in order to reverse Thanos' actions and restore balance to the universe."
         createActorsList()
     }
 
