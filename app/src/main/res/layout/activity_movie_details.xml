@@ -41,9 +41,9 @@
 
         <TextView
             android:id="@+id/movie_title"
+            style="@style/RobotoWeight900"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-black"
             android:lines="2"
             android:textColor="@color/whisper"
             android:textSize="40sp"
@@ -56,11 +56,11 @@
 
         <TextView
             android:id="@+id/movie_age"
+            style="@style/RobotoWeight900"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:background="@drawable/movie_age_bg"
-            android:fontFamily="sans-serif-black"
             android:paddingTop="4dp"
             android:paddingBottom="4dp"
             android:textColor="@color/white"
@@ -72,11 +72,11 @@
 
         <TextView
             android:id="@+id/movie_genre"
+            style="@style/RobotoWeight300"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:ellipsize="end"
-            android:fontFamily="sans-serif"
             android:lines="1"
             android:textColor="@color/radical_red"
             android:textSize="14sp"
@@ -102,12 +102,12 @@
 
         <TextView
             android:id="@+id/movie_reviews"
+            style="@style/RobotoWeight900"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
             android:layout_marginTop="4dp"
-            android:fontFamily="sans-serif-black"
             android:lines="1"
             android:textColor="@color/comet"
             android:textSize="14sp"
@@ -118,10 +118,10 @@
 
         <TextView
             android:id="@+id/movie_storyline"
+            style="@style/RobotoWeight900"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:fontFamily="sans-serif-black"
             android:text="@string/movie_storyline"
             android:textColor="@color/whisper"
             android:textSize="14sp"
@@ -131,13 +131,13 @@
 
         <TextView
             android:id="@+id/movie_description"
+            style="@style/RobotoWeight300"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginTop="4dp"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
             android:alpha="0.75"
-            android:fontFamily="sans-serif"
             android:textColor="@color/white"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="@id/guideline_right"
@@ -148,10 +148,10 @@
 
         <TextView
             android:id="@+id/movie_cast"
+            style="@style/RobotoWeight900"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:fontFamily="sans-serif-black"
             android:text="@string/movie_cast"
             android:textColor="@color/whisper"
             android:textSize="14sp"
