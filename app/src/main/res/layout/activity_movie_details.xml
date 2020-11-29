@@ -18,10 +18,11 @@
         <ImageView
             android:id="@+id/movie_image"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="298dp"
             android:adjustViewBounds="true"
             android:contentDescription="@null"
             android:minHeight="300dp"
+            android:scaleType="centerCrop"
             android:src="@drawable/movie_image"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -36,6 +37,39 @@
             app:layout_constraintBottom_toBottomOf="@+id/movie_image"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+
+        <ImageView
+            android:id="@+id/back_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="2dp"
+            android:layout_marginLeft="2dp"
+            android:adjustViewBounds="true"
+            android:contentDescription="@string/back"
+            app:layout_constraintBottom_toBottomOf="@id/back_button"
+            app:layout_constraintStart_toStartOf="@id/guideline_left"
+            app:layout_constraintTop_toTopOf="@id/back_button"
+            app:srcCompat="@drawable/ic_back_arrow"
+            />
+
+        <TextView
+            android:id="@+id/back_button"
+            style="@style/RobotoWeight300"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="56dp"
+            android:alpha="0.5"
+            android:paddingStart="8dp"
+            android:paddingLeft="8dp"
+            android:paddingEnd="0dp"
+            android:paddingRight="0dp"
+            android:text="@string/back"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="@id/guideline_right"
+            app:layout_constraintStart_toEndOf="@id/back_icon"
             app:layout_constraintTop_toTopOf="parent"
             />
 

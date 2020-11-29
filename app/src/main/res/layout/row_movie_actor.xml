@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="@dimen/movie_actor_width"
     android:layout_height="match_parent"
@@ -8,13 +9,14 @@
     tools:showIn="@layout/activity_movie_details"
     >
 
-    <ImageView
+    <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/photo"
         android:layout_width="@dimen/movie_actor_width"
         android:layout_height="@dimen/movie_actor_width"
         android:adjustViewBounds="true"
         android:contentDescription="@string/movie_actor"
         android:src="@drawable/actor1"
+        app:shapeAppearanceOverlay="@style/ShapeableImageView.CornerRadius"
         />
 
     <TextView

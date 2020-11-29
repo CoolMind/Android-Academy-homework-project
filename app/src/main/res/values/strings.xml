@@ -12,4 +12,5 @@
     <string name="movie_storyline">Storyline</string>
     <string name="movie_cast">Cast</string>
     <string name="movie_actor">Actor</string>
+    <string name="back">Back</string>
 </resources>

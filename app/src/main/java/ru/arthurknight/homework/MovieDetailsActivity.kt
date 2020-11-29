@@ -1,6 +1,9 @@
 package ru.arthurknight.homework
 
+import android.annotation.SuppressLint
 import android.os.Bundle
+import android.view.View
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -9,7 +12,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ru.arthurknight.homework.common.divider.DividerItemDecoration
 
-class MovieDetailsActivity : AppCompatActivity() {
+class MovieDetailsActivity : AppCompatActivity(), View.OnClickListener {
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_movie_details)
@@ -21,6 +25,15 @@ class MovieDetailsActivity : AppCompatActivity() {
         findViewById<TextView>(R.id.movie_description).text =
             "After the devastating events of Avengers: Infinity War, the universe is in ruins. With the help of remaining allies, the Avengers assemble once more in order to reverse Thanos' actions and restore balance to the universe."
         createActorsList()
+
+        findViewById<ImageView>(R.id.back_icon).setOnClickListener(this)
+        findViewById<TextView>(R.id.back_button).setOnClickListener(this)
+    }
+
+    override fun onClick(v: View) {
+        when (v.id) {
+            R.id.back_icon, R.id.back_button -> finish()
+        }
     }
 
     private fun createActorsList() {

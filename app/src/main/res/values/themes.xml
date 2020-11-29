@@ -23,11 +23,17 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <!-- Шрифты Roboto -->
     <style name="RobotoWeight300" parent="AppTheme">
         <item name="android:fontFamily">sans-serif</item>
     </style>
 
     <style name="RobotoWeight900" parent="AppTheme">
         <item name="android:fontFamily">sans-serif-black</item>
+    </style>
+
+    <!-- ShapeableImageView -->
+    <style name="ShapeableImageView.CornerRadius" parent="AppTheme">
+        <item name="cornerSize">@dimen/movie_actor_corner_radius</item>
     </style>
 </resources>
