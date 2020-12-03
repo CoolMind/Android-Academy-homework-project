@@ -18,9 +18,8 @@ class MovieDetailsAdapter : RecyclerView.Adapter<MovieDetailsAdapter.ViewHolder>
 
     fun setItems(list: List<Item>) {
         items.clear()
-        notifyDataSetChanged()
         items.addAll(list)
-        notifyItemRangeInserted(0, list.size)
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -29,7 +28,6 @@ class MovieDetailsAdapter : RecyclerView.Adapter<MovieDetailsAdapter.ViewHolder>
             parent, false
         )
         return ViewHolder(view)
-
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -42,12 +40,15 @@ class MovieDetailsAdapter : RecyclerView.Adapter<MovieDetailsAdapter.ViewHolder>
 
     override fun getItemCount(): Int = items.size
 
+    override fun getItemId(position: Int): Long = items[position].id
+
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val photo: ImageView = itemView.findViewById(R.id.photo)
         val name: TextView = itemView.findViewById(R.id.name)
     }
 
     data class Item(
+        val id: Long,
         @DrawableRes val photo: Int,
         val name: String
     )

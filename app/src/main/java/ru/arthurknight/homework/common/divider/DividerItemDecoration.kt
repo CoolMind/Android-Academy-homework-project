@@ -38,31 +38,13 @@ import kotlin.math.roundToInt
  */
 
 // https://gist.githubusercontent.com/bipinvaylu/2714d9d429dc72b0108c05be52b609e0/raw/74b1d26538c534fe1aaa772b3f2890fc01882fcd/DividerItemDecoration.kt
-//Find out original java version: https://gist.github.com/johnwatsondev/720730cf6b8c59fa6abe4f31dbaf59d7
+// Find out original java version: https://gist.github.com/johnwatsondev/720730cf6b8c59fa6abe4f31dbaf59d7
 
 @SuppressLint("LogNotTimber")
-class DividerItemDecoration(orientation: Int, isShowInLastItem: Boolean) :
+class DividerItemDecoration(private val orientation: Int, private val isShowInLastItem: Boolean) :
     ItemDecoration() {
-    private lateinit var mDivider: Drawable
 
-    /**
-     * Current orientation. Either [.LinearLayout.HORIZONTAL] or [.LinearLayout.VERTICAL].
-     */
-    private var mOrientation = 0
-
-    //    private final Rect mBounds = new Rect();
-    private val mIsShowInLastItem: Boolean
-
-    /**
-     * Sets the orientation for this divider. This should be called if
-     * [RecyclerView.LayoutManager] changes orientation.
-     *
-     * @param orientation [.LinearLayout.HORIZONTAL] or [.LinearLayout.VERTICAL]
-     */
-    fun setOrientation(orientation: Int) {
-        require(!(orientation != LinearLayout.HORIZONTAL && orientation != LinearLayout.VERTICAL)) { "Invalid orientation. It should be either LinearLayout.HORIZONTAL or LinearLayout.VERTICAL" }
-        mOrientation = orientation
-    }
+    private lateinit var divider: Drawable
 
     /**
      * Sets the [Drawable] for this divider.
@@ -70,14 +52,14 @@ class DividerItemDecoration(orientation: Int, isShowInLastItem: Boolean) :
      * @param drawable Drawable that should be used as a divider.
      */
     fun setDrawable(drawable: Drawable) {
-        mDivider = drawable
+        divider = drawable
     }
 
     override fun onDraw(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {
         if (parent.layoutManager == null) {
             return
         }
-        if (mOrientation == LinearLayout.VERTICAL) {
+        if (orientation == LinearLayout.VERTICAL) {
             drawVertical(c, parent)
         } else {
             drawHorizontal(c, parent)
@@ -92,7 +74,7 @@ class DividerItemDecoration(orientation: Int, isShowInLastItem: Boolean) :
             left, parent.paddingTop, right,
             parent.height - parent.paddingBottom
         )
-        val childCount: Int = if (mIsShowInLastItem) {
+        val childCount: Int = if (isShowInLastItem) {
             parent.childCount
         } else {
             parent.childCount - 1
@@ -101,9 +83,9 @@ class DividerItemDecoration(orientation: Int, isShowInLastItem: Boolean) :
             val child = parent.getChildAt(i)
             val decoratedBottom = parent.layoutManager!!.getDecoratedBottom(child)
             val bottom = decoratedBottom + child.translationY.roundToInt()
-            val top = bottom - mDivider.intrinsicHeight
-            mDivider.setBounds(left, top, right, bottom)
-            mDivider.draw(canvas)
+            val top = bottom - divider.intrinsicHeight
+            divider.setBounds(left, top, right, bottom)
+            divider.draw(canvas)
         }
         canvas.restore()
     }
@@ -116,7 +98,7 @@ class DividerItemDecoration(orientation: Int, isShowInLastItem: Boolean) :
             parent.paddingLeft, top,
             parent.width - parent.paddingRight, bottom
         )
-        val childCount: Int = if (mIsShowInLastItem) {
+        val childCount: Int = if (isShowInLastItem) {
             parent.childCount
         } else {
             parent.childCount - 1
@@ -125,9 +107,9 @@ class DividerItemDecoration(orientation: Int, isShowInLastItem: Boolean) :
             val child = parent.getChildAt(i)
             val decoratedRight = parent.layoutManager!!.getDecoratedRight(child)
             val right = decoratedRight + child.translationX.roundToInt()
-            val left = right - mDivider.intrinsicWidth
-            mDivider.setBounds(left, top, right, bottom)
-            mDivider.draw(canvas)
+            val left = right - divider.intrinsicWidth
+            divider.setBounds(left, top, right, bottom)
+            divider.draw(canvas)
         }
         canvas.restore()
     }
@@ -140,26 +122,21 @@ class DividerItemDecoration(orientation: Int, isShowInLastItem: Boolean) :
     ) {
         val itemPosition = (view.layoutParams as RecyclerView.LayoutParams).viewLayoutPosition
         val itemCount = state.itemCount
-        if (mIsShowInLastItem) {
-            if (mOrientation == LinearLayout.VERTICAL) {
-                outRect[0, 0, 0] = mDivider.intrinsicHeight
+        if (isShowInLastItem) {
+            if (orientation == LinearLayout.VERTICAL) {
+                outRect[0, 0, 0] = divider.intrinsicHeight
             } else {
-                outRect[0, 0, mDivider.intrinsicWidth] = 0
+                outRect[0, 0, divider.intrinsicWidth] = 0
             }
         } else if (itemPosition == itemCount - 1) {
             // We didn't set the last item when mIsShowInLastItem's value is false.
             outRect.setEmpty()
         } else {
-            if (mOrientation == LinearLayout.VERTICAL) {
-                outRect[0, 0, 0] = mDivider.intrinsicHeight
+            if (orientation == LinearLayout.VERTICAL) {
+                outRect[0, 0, 0] = divider.intrinsicHeight
             } else {
-                outRect[0, 0, mDivider.intrinsicWidth] = 0
+                outRect[0, 0, divider.intrinsicWidth] = 0
             }
         }
-    }
-
-    init {
-        setOrientation(orientation)
-        mIsShowInLastItem = isShowInLastItem
     }
 }

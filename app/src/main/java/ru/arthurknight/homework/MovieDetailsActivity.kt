@@ -1,18 +1,19 @@
 package ru.arthurknight.homework
 
 import android.annotation.SuppressLint
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
-import android.view.View
-import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import ru.arthurknight.homework.common.divider.DividerItemDecoration
+import ru.arthurknight.homework.util.DrawableUtil
 
-class MovieDetailsActivity : AppCompatActivity(), View.OnClickListener {
+
+class MovieDetailsActivity : AppCompatActivity() {
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,37 +27,32 @@ class MovieDetailsActivity : AppCompatActivity(), View.OnClickListener {
             "After the devastating events of Avengers: Infinity War, the universe is in ruins. With the help of remaining allies, the Avengers assemble once more in order to reverse Thanos' actions and restore balance to the universe."
         createActorsList()
 
-        findViewById<ImageView>(R.id.back_icon).setOnClickListener(this)
-        findViewById<TextView>(R.id.back_button).setOnClickListener(this)
-    }
-
-    override fun onClick(v: View) {
-        when (v.id) {
-            R.id.back_icon, R.id.back_button -> finish()
-        }
+        findViewById<TextView>(R.id.back_button).setOnClickListener { finish() }
     }
 
     private fun createActorsList() {
         val actorsList = findViewById<RecyclerView>(R.id.movie_actors_list)
         val divider = DividerItemDecoration(LinearLayout.HORIZONTAL, false)
-        divider.setDrawable(ContextCompat.getDrawable(this, R.drawable.movie_list_divider)!!)
+        divider.setDrawable(DrawableUtil.getDrawable(this, R.drawable.movie_list_divider))
         val adapter = MovieDetailsAdapter()
-        val items = arrayListOf(
-            MovieDetailsAdapter.Item(R.drawable.actor1, "Robert Downey Jr."),
-            MovieDetailsAdapter.Item(R.drawable.actor2, "Chris Evans"),
-            MovieDetailsAdapter.Item(R.drawable.actor3, "Mark Ruffalo"),
-            MovieDetailsAdapter.Item(R.drawable.actor4, "Chris Hemsworth"),
+        val items = listOf(
+            MovieDetailsAdapter.Item(0, R.drawable.actor1, "Robert Downey Jr."),
+            MovieDetailsAdapter.Item(1, R.drawable.actor2, "Chris Evans"),
+            MovieDetailsAdapter.Item(2, R.drawable.actor3, "Mark Ruffalo"),
+            MovieDetailsAdapter.Item(3, R.drawable.actor4, "Chris Hemsworth"),
         )
         adapter.setItems(items)
         with(actorsList) {
-            layoutManager = LinearLayoutManager(
-                this@MovieDetailsActivity,
-                LinearLayoutManager.HORIZONTAL,
-                false
-            )
             this.adapter = adapter
             addItemDecoration(divider)
             setHasFixedSize(true)
         }
+        val snapHelper = LinearSnapHelper()
+        snapHelper.attachToRecyclerView(actorsList)
+    }
+
+    companion object {
+        fun newIntent(context: Context): Intent =
+            Intent(context, MovieDetailsActivity::class.java)
     }
 }

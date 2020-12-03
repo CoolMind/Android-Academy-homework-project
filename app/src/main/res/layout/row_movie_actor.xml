@@ -6,8 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:ignore="UseCompoundDrawables"
-    tools:showIn="@layout/activity_movie_details"
-    >
+    tools:showIn="@layout/activity_movie_details">
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/photo"
@@ -16,8 +15,7 @@
         android:adjustViewBounds="true"
         android:contentDescription="@string/movie_actor"
         android:src="@drawable/actor1"
-        app:shapeAppearanceOverlay="@style/ShapeableImageView.CornerRadius"
-        />
+        app:shapeAppearanceOverlay="@style/ShapeableImageView.CornerRadius" />
 
     <TextView
         android:id="@+id/name"
@@ -27,7 +25,6 @@
         android:layout_marginTop="6dp"
         android:maxLines="2"
         android:textColor="@color/gainsboro"
-        tools:text="Robert Downey Jr."
-        />
+        tools:text="Robert Downey Jr." />
 
 </LinearLayout>

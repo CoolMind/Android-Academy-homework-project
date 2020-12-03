@@ -4,16 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true"
-    >
+    android:fillViewport="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/black_russian"
         android:paddingBottom="20dp"
-        tools:context=".MovieDetailsActivity"
-        >
+        tools:context=".MovieDetailsActivity">
 
         <ImageView
             android:id="@+id/movie_image"
@@ -21,13 +19,11 @@
             android:layout_height="298dp"
             android:adjustViewBounds="true"
             android:contentDescription="@null"
-            android:minHeight="300dp"
             android:scaleType="centerCrop"
             android:src="@drawable/movie_image"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <View
             android:id="@+id/movie_image_gradient"
@@ -37,88 +33,70 @@
             app:layout_constraintBottom_toBottomOf="@+id/movie_image"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            />
-
-        <ImageView
-            android:id="@+id/back_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="2dp"
-            android:layout_marginLeft="2dp"
-            android:adjustViewBounds="true"
-            android:contentDescription="@string/back"
-            app:layout_constraintBottom_toBottomOf="@id/back_button"
-            app:layout_constraintStart_toStartOf="@id/guideline_left"
-            app:layout_constraintTop_toTopOf="@id/back_button"
-            app:srcCompat="@drawable/ic_back_arrow"
-            />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/back_button"
-            style="@style/RobotoWeight300"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="56dp"
             android:alpha="0.5"
-            android:paddingStart="8dp"
-            android:paddingLeft="8dp"
+            android:drawablePadding="8dp"
+            android:paddingStart="2dp"
+            android:paddingLeft="2dp"
             android:paddingEnd="0dp"
             android:paddingRight="0dp"
             android:text="@string/back"
+            android:textAppearance="@style/RobotoWeight300"
             android:textColor="@color/white"
             android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="@id/guideline_right"
-            app:layout_constraintStart_toEndOf="@id/back_icon"
-            app:layout_constraintTop_toTopOf="parent"
-            />
+            app:drawableLeftCompat="@drawable/ic_back_arrow"
+            app:layout_constraintStart_toStartOf="@id/guideline_left"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/movie_title"
-            style="@style/RobotoWeight900"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:lines="2"
+            android:textAppearance="@style/RobotoWeight900"
             android:textColor="@color/whisper"
             android:textSize="40sp"
             app:layout_constraintBottom_toBottomOf="@id/movie_image"
             app:layout_constraintEnd_toEndOf="@id/guideline_right"
             app:layout_constraintStart_toStartOf="@id/guideline_left"
             app:layout_constraintTop_toBottomOf="@id/movie_image"
-            tools:text="Avengers:\n End Game"
-            />
+            tools:text="Avengers:\n End Game" />
 
         <TextView
             android:id="@+id/movie_age"
-            style="@style/RobotoWeight900"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:background="@drawable/movie_age_bg"
             android:paddingTop="4dp"
             android:paddingBottom="4dp"
+            android:textAppearance="@style/RobotoWeight900"
             android:textColor="@color/white"
             android:textSize="12sp"
             app:layout_constraintBottom_toTopOf="@id/movie_title"
             app:layout_constraintStart_toStartOf="@id/guideline_left"
-            tools:text="13+"
-            />
+            tools:text="13+" />
 
         <TextView
             android:id="@+id/movie_genre"
-            style="@style/RobotoWeight300"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:ellipsize="end"
             android:lines="1"
+            android:textAppearance="@style/RobotoWeight300"
             android:textColor="@color/radical_red"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="@id/guideline_right"
             app:layout_constraintStart_toStartOf="@id/guideline_left"
             app:layout_constraintTop_toBottomOf="@id/movie_title"
-            tools:text="Action, Adventure, Fantasy"
-            />
+            tools:text="Action, Adventure, Fantasy" />
 
         <ru.arthurknight.homework.common.SvgRatingBar
             android:id="@+id/movie_rating"
@@ -131,67 +109,62 @@
             android:stepSize="0.5"
             app:layout_constraintBottom_toBottomOf="@id/movie_reviews"
             app:layout_constraintStart_toStartOf="@id/guideline_left"
-            app:layout_constraintTop_toTopOf="@id/movie_reviews"
-            />
+            app:layout_constraintTop_toTopOf="@id/movie_reviews" />
 
         <TextView
             android:id="@+id/movie_reviews"
-            style="@style/RobotoWeight900"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
             android:layout_marginTop="4dp"
             android:lines="1"
+            android:textAppearance="@style/RobotoWeight900"
             android:textColor="@color/comet"
             android:textSize="14sp"
             app:layout_constraintStart_toEndOf="@id/movie_rating"
             app:layout_constraintTop_toBottomOf="@id/movie_genre"
-            tools:text="125 Reviews"
-            />
+            tools:text="125 Reviews" />
 
         <TextView
             android:id="@+id/movie_storyline"
-            style="@style/RobotoWeight900"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:text="@string/movie_storyline"
+            android:textAppearance="@style/RobotoWeight900"
             android:textColor="@color/whisper"
             android:textSize="14sp"
             app:layout_constraintStart_toStartOf="@id/guideline_left"
-            app:layout_constraintTop_toBottomOf="@id/movie_reviews"
-            />
+            app:layout_constraintTop_toBottomOf="@id/movie_reviews" />
 
         <TextView
             android:id="@+id/movie_description"
-            style="@style/RobotoWeight300"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginTop="4dp"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
             android:alpha="0.75"
+            android:textAppearance="@style/RobotoWeight300"
             android:textColor="@color/white"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="@id/guideline_right"
             app:layout_constraintStart_toStartOf="@id/guideline_left"
             app:layout_constraintTop_toBottomOf="@id/movie_storyline"
-            tools:text="After the devastating events of Avengers: Infinity War, the universe is in ruins. With the help of remaining allies, the Avengers assemble once more in order to reverse Thanos' actions and restore balance to the universe."
-            />
+            tools:text="After the devastating events of Avengers: Infinity War, the universe is in ruins. With the help of remaining allies, the Avengers assemble once more in order to reverse Thanos' actions and restore balance to the universe." />
 
         <TextView
             android:id="@+id/movie_cast"
-            style="@style/RobotoWeight900"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:text="@string/movie_cast"
+            android:textAppearance="@style/RobotoWeight900"
             android:textColor="@color/whisper"
             android:textSize="14sp"
             app:layout_constraintStart_toStartOf="@id/guideline_left"
-            app:layout_constraintTop_toBottomOf="@id/movie_description"
-            />
+            app:layout_constraintTop_toBottomOf="@id/movie_description" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/movie_actors_list"
@@ -203,24 +176,21 @@
             app:layout_constraintEnd_toEndOf="@id/guideline_right"
             app:layout_constraintStart_toStartOf="@id/guideline_left"
             app:layout_constraintTop_toBottomOf="@id/movie_cast"
-            tools:listitem="@layout/row_movie_actor"
-            />
+            tools:listitem="@layout/row_movie_actor" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline_left"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_begin="@dimen/activity_horizontal_margin"
-            />
+            app:layout_constraintGuide_begin="@dimen/activity_horizontal_margin" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline_right"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_end="@dimen/activity_horizontal_margin"
-            />
+            app:layout_constraintGuide_end="@dimen/activity_horizontal_margin" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

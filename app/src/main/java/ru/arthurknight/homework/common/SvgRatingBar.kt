@@ -93,8 +93,8 @@ class SvgRatingBar @JvmOverloads constructor(context: Context, attrs: AttributeS
 
     @Synchronized override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
-        if (sampleTile != null) {
-            val width = sampleTile!!.width * numStars
+        sampleTile?.let {
+            val width = it.width * numStars
             setMeasuredDimension(resolveSizeAndState(width, widthMeasureSpec, 0),
                 measuredHeight)
         }
