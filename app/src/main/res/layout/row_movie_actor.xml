@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:ignore="UseCompoundDrawables"
-    tools:showIn="@layout/activity_movie_details">
+    tools:showIn="@layout/fragment_movies_details">
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/photo"

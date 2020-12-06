@@ -1,13 +1,12 @@
 package ru.arthurknight.homework
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import ru.arthurknight.homework.adapter.MovieAdapter
 import ru.arthurknight.homework.dummy.DummyContent
 
@@ -16,29 +15,15 @@ import ru.arthurknight.homework.dummy.DummyContent
  */
 class FragmentMoviesList : Fragment() {
 
-    private var columnCount = 2
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        arguments?.let {
-            columnCount = it.getInt(ARG_COLUMN_COUNT)
-        }
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.row_movie, container, false)
+        val view = inflater.inflate(R.layout.fragment_movies_list, container, false)
 
-        // Set the adapter
         if (view is RecyclerView) {
             with(view) {
-                layoutManager = when {
-                    columnCount <= 1 -> LinearLayoutManager(context)
-                    else -> GridLayoutManager(context, columnCount)
-                }
+                layoutManager = GridLayoutManager(context, 2)
                 adapter = MovieAdapter(DummyContent.ITEMS)
             }
         }
@@ -48,16 +33,11 @@ class FragmentMoviesList : Fragment() {
 
     companion object {
 
-        // TODO: Customize parameter argument names
-        const val ARG_COLUMN_COUNT = "column-count"
+        val TAG: String = FragmentMoviesList::class.java.name
 
-        // TODO: Customize parameter initialization
-        @JvmStatic
-        fun newInstance(columnCount: Int) =
-            FragmentMoviesList().apply {
-                arguments = Bundle().apply {
-                    putInt(ARG_COLUMN_COUNT, columnCount)
-                }
+        fun newInstance() = FragmentMoviesList().apply {
+            arguments = Bundle().apply {
             }
+        }
     }
 }

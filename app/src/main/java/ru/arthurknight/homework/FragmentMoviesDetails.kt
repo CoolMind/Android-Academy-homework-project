@@ -1,58 +1,71 @@
 package ru.arthurknight.homework
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
+import android.widget.TextView
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearSnapHelper
+import androidx.recyclerview.widget.RecyclerView
+import ru.arthurknight.homework.common.divider.DividerItemDecoration
+import ru.arthurknight.homework.util.DrawableUtil
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [FragmentMoviesDetails.newInstance] factory method to
- * create an instance of this fragment.
- */
 class FragmentMoviesDetails : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_movies_details, container, false)
+        val view = inflater.inflate(R.layout.fragment_movies_details, container, false)
+
+
+        view.findViewById<TextView>(R.id.movie_age).text = "13+"
+        view.findViewById<TextView>(R.id.movie_title).text = "Avengers:\nEnd Game"
+        view.findViewById<TextView>(R.id.movie_genre).text = "Action, Adventure, Fantasy"
+        view.findViewById<TextView>(R.id.movie_reviews).text = "125 Reviews"
+        view.findViewById<TextView>(R.id.movie_description).text =
+            "After the devastating events of Avengers: Infinity War, the universe is in ruins. With the help of remaining allies, the Avengers assemble once more in order to reverse Thanos' actions and restore balance to the universe."
+        createActorsList(view)
+
+        view.findViewById<TextView>(R.id.back_button).setOnClickListener { activity?.finish() }
+
+        return view
+    }
+
+    private fun createActorsList(view: View) {
+        val actorsList = view.findViewById<RecyclerView>(R.id.movie_actors_list)
+        val divider = DividerItemDecoration(LinearLayout.HORIZONTAL, false)
+        context?.let {
+            divider.setDrawable(DrawableUtil.getDrawable(it, R.drawable.movie_list_divider))
+        }
+        val adapter = MovieDetailsAdapter()
+        val items = listOf(
+            MovieDetailsAdapter.Item(0, R.drawable.actor1, "Robert Downey Jr."),
+            MovieDetailsAdapter.Item(1, R.drawable.actor2, "Chris Evans"),
+            MovieDetailsAdapter.Item(2, R.drawable.actor3, "Mark Ruffalo"),
+            MovieDetailsAdapter.Item(3, R.drawable.actor4, "Chris Hemsworth"),
+        )
+        adapter.setItems(items)
+        with(actorsList) {
+            this.adapter = adapter
+            addItemDecoration(divider)
+            setHasFixedSize(true)
+        }
+        val snapHelper = LinearSnapHelper()
+        snapHelper.attachToRecyclerView(actorsList)
     }
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment FragmentMoviesDetails.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
+
+        val TAG: String = FragmentMoviesDetails::class.java.name
+
+        fun newInstance() =
             FragmentMoviesDetails().apply {
                 arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
                 }
             }
     }

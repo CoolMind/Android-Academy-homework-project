@@ -13,7 +13,7 @@ class MovieAdapter(private val values: List<DummyItem>) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.fragment_movies_list, parent, false)
+            .inflate(R.layout.row_movie, parent, false)
         return ViewHolder(view)
     }
 
