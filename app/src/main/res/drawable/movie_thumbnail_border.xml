@@ -20,9 +20,9 @@
             <gradient
                 android:centerX="1.0"
                 android:centerY="1.0"
-                android:endColor="#ff2232"
+                android:endColor="#8c222232"
                 android:gradientRadius="100%p"
-                android:startColor="#fe404056"
+                android:startColor="#8b404056"
                 android:type="radial" />
             <corners android:radius="8dp" />
         </shape>
