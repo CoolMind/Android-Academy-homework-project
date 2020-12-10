@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
@@ -19,9 +20,7 @@ class FragmentMoviesDetails : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_movies_details, container, false)
-
 
         view.findViewById<TextView>(R.id.movie_age).text = "13+"
         view.findViewById<TextView>(R.id.movie_title).text = "Avengers:\nEnd Game"
@@ -31,7 +30,8 @@ class FragmentMoviesDetails : Fragment() {
             "After the devastating events of Avengers: Infinity War, the universe is in ruins. With the help of remaining allies, the Avengers assemble once more in order to reverse Thanos' actions and restore balance to the universe."
         createActorsList(view)
 
-        view.findViewById<TextView>(R.id.back_button).setOnClickListener { activity?.finish() }
+        view.findViewById<TextView>(R.id.back_button)
+            .setOnClickListener { (activity as AppCompatActivity).onBackPressed() }
 
         return view
     }
@@ -63,9 +63,12 @@ class FragmentMoviesDetails : Fragment() {
 
         val TAG: String = FragmentMoviesDetails::class.java.name
 
-        fun newInstance() =
+        private const val ARG_ID = "ARG_ID"
+
+        fun newInstance(id: Int) =
             FragmentMoviesDetails().apply {
                 arguments = Bundle().apply {
+                    putInt(ARG_ID, id)
                 }
             }
     }

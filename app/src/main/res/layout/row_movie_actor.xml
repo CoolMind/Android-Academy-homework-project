@@ -15,7 +15,7 @@
         android:adjustViewBounds="true"
         android:contentDescription="@string/movie_actor"
         android:src="@drawable/actor1"
-        app:shapeAppearanceOverlay="@style/ShapeableImageView.CornerRadius" />
+        app:shapeAppearanceOverlay="@style/MovieActorImageView.CornerRadius" />
 
     <TextView
         android:id="@+id/name"
