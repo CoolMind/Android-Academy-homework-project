@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/movie_thumbnail_border"
+    tools:context=".MainActivity"
+    tools:layout_width="150dp">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/movie_image"
+        android:layout_width="0dp"
+        android:layout_height="249dp"
+        android:layout_margin="2dp"
+        android:adjustViewBounds="true"
+        android:contentDescription="@null"
+        android:scaleType="centerCrop"
+        android:src="@drawable/movie_background"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:shapeAppearanceOverlay="@style/MovieThumbnailImageView.CornerRadius" />
+
+    <View
+        android:id="@+id/movie_image_gradient"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:background="@drawable/movie_gradient"
+        app:layout_constraintBottom_toBottomOf="@+id/movie_image"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/movie_age"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/movie_age_bg"
+        android:paddingLeft="2dp"
+        android:paddingTop="4dp"
+        android:paddingRight="2dp"
+        android:paddingBottom="4dp"
+        android:textAppearance="@style/RobotoWeight900"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="@id/guideline_left"
+        app:layout_constraintTop_toTopOf="@id/movie_image"
+        tools:text="13+" />
+
+    <ImageView
+        android:id="@+id/favourite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:alpha="0.75"
+        android:contentDescription="@string/movie_add_to_favourites"
+        app:layout_constraintBottom_toBottomOf="@id/movie_age"
+        app:layout_constraintEnd_toEndOf="@id/guideline_right"
+        app:layout_constraintTop_toTopOf="@id/movie_age"
+        app:srcCompat="@drawable/ic_favourite" />
+
+    <TextView
+        android:id="@+id/movie_genre"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="2dp"
+        android:ellipsize="end"
+        android:lines="1"
+        android:textAppearance="@style/RobotoWeight300"
+        android:textColor="@color/radical_red"
+        android:textSize="8sp"
+        app:layout_constraintBottom_toTopOf="@id/movie_reviews"
+        app:layout_constraintEnd_toEndOf="@id/guideline_right"
+        app:layout_constraintStart_toStartOf="@id/guideline_left"
+        tools:ignore="SmallSp"
+        tools:text="Action, Adventure, Fantasy" />
+
+    <ru.arthurknight.homework.common.SvgRatingBar
+        android:id="@+id/movie_rating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:minHeight="8dp"
+        android:numStars="5"
+        android:progressDrawable="@drawable/movie_thumbnail_rating_bar"
+        android:rating="4"
+        android:stepSize="0.5"
+        app:layout_constraintBottom_toBottomOf="@id/movie_image"
+        app:layout_constraintStart_toStartOf="@id/guideline_left" />
+
+    <TextView
+        android:id="@+id/movie_reviews"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="6dp"
+        android:layout_marginLeft="6dp"
+        android:ellipsize="end"
+        android:lines="1"
+        android:textAllCaps="true"
+        android:textAppearance="@style/RobotoWeight900"
+        android:textColor="@color/comet"
+        android:textSize="8sp"
+        app:layout_constraintBottom_toBottomOf="@id/movie_rating"
+        app:layout_constraintStart_toEndOf="@id/movie_rating"
+        app:layout_constraintTop_toTopOf="@id/movie_rating"
+        tools:ignore="SmallSp"
+        tools:text="125 Reviews" />
+
+    <TextView
+        android:id="@+id/movie_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:maxLines="2"
+        android:textAppearance="@style/RobotoWeight900"
+        android:textColor="@color/whisper"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="@id/guideline_right"
+        app:layout_constraintStart_toStartOf="@id/guideline_left"
+        app:layout_constraintTop_toBottomOf="@id/movie_image"
+        tools:text="Avengers:\n End Game" />
+
+    <TextView
+        android:id="@+id/movie_duration"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:lines="1"
+        android:paddingBottom="8dp"
+        android:textAllCaps="true"
+        android:textAppearance="@style/RobotoWeight900"
+        android:textColor="@color/comet"
+        android:textSize="8sp"
+        app:layout_constraintEnd_toEndOf="@id/guideline_right"
+        app:layout_constraintStart_toEndOf="@id/movie_rating"
+        app:layout_constraintStart_toStartOf="@id/guideline_left"
+        app:layout_constraintTop_toBottomOf="@id/movie_title"
+        tools:ignore="SmallSp"
+        tools:text="137 min" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="8dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="8dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
