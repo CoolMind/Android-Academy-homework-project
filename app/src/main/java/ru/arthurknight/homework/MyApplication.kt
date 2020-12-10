@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package ru.arthurknight.homework
 
 import android.app.Application
