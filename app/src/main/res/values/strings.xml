@@ -16,4 +16,12 @@
     <string name="movie_add_to_favourites">Add to favourites</string>
     <string name="movie_movies_list">Movies list</string>
 
+    <plurals name="reviews_plurals">
+        <item quantity="zero">No reviews</item>
+        <item quantity="one">%1$d review</item>
+        <item quantity="few">%1$d reviews</item>
+        <item quantity="many">%1$d reviews</item>
+        <item quantity="other">%1$d reviews</item>
+    </plurals>
+
 </resources>

@@ -7,6 +7,7 @@ import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import ru.arthurknight.homework.R
 import ru.arthurknight.homework.util.DrawableUtil.setSvgColor
 
@@ -62,7 +63,9 @@ class MoviesListAdapter(private val values: List<AbstractItem>) :
 
     private fun updateMovie(holder: MovieVH, item: Movie) {
         with(holder) {
-            background.setImageResource(item.background)
+            Glide.with(background)
+                .load(item.pictureUrl)
+                .into(background)
             age.text = item.age
             setFavouriteImage(holder.favourite, item.isFavourite)
             genre.text = item.genre
@@ -116,14 +119,14 @@ class MoviesListAdapter(private val values: List<AbstractItem>) :
 
     data class Movie(
         override val id: Int,
-        val background: Int,
-        val age: String,
-        val isFavourite: Boolean,
+        val title: String,
         val genre: String,
         val rating: Float,
         val reviews: String,
-        val title: String,
-        val duration: String
+        val age: String,
+        val duration: String,
+        val pictureUrl: String,
+        val isFavourite: Boolean
     ) : AbstractItem(id, ViewType.MOVIE)
 
     enum class ViewType {
