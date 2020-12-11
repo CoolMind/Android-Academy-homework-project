@@ -9,6 +9,9 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ru.arthurknight.homework.adapter.MoviesListAdapter
+import ru.arthurknight.homework.mapper.MoviesListMapper
+import ru.arthurknight.homework.model.Movie
+import ru.arthurknight.homework.repository.Repository
 
 /**
  * A fragment representing a list of movies.
@@ -17,6 +20,8 @@ class FragmentMoviesList : Fragment(), MoviesListAdapter.ItemClickListener {
 
     private var items: List<MoviesListAdapter.AbstractItem> = emptyList()
     private var listener: MovieClickListener? = null
+    private lateinit var repository: Repository
+    private lateinit var moviesListMapper: MoviesListMapper
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -26,6 +31,14 @@ class FragmentMoviesList : Fragment(), MoviesListAdapter.ItemClickListener {
         } else {
             throw RuntimeException("$context must implement ${MoviesListAdapter.ItemClickListener::class.java.name}")
         }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        repository = Repository()
+        moviesListMapper = MoviesListMapper(resources)
+        items = getItems(repository.getMovies())
     }
 
     override fun onCreateView(
@@ -54,25 +67,11 @@ class FragmentMoviesList : Fragment(), MoviesListAdapter.ItemClickListener {
     override fun onFavouriteClick(id: Int) {
     }
 
-    private fun getItems(): List<MoviesListAdapter.AbstractItem> = listOf(
-        MoviesListAdapter.Header(10, "Movies list"),
-        MoviesListAdapter.Movie(
-            11,
-            R.drawable.movie_background,
-            "13+",
-            false,
-            "Action, Adventure, Drama",
-            4f,
-            "125 Reviews",
-            "Avengers: End Game",
-            "137 min"
-        )
-    )
-
     private fun createMoviesList(recyclerView: RecyclerView) {
-        items = getItems()
-        val adapter = MoviesListAdapter(items)
-        adapter.setClickListener(this)
+        val adapter = MoviesListAdapter(items).apply {
+            setHasStableIds(true)
+            setClickListener(this@FragmentMoviesList)
+        }
 
         with(recyclerView) {
             this.layoutManager = layoutManager
@@ -86,6 +85,10 @@ class FragmentMoviesList : Fragment(), MoviesListAdapter.ItemClickListener {
                 if (adapter.isHeader(position)) layoutManager.spanCount else 1
         }
     }
+
+    private fun getItems(movies: List<Movie>): List<MoviesListAdapter.AbstractItem> =
+        listOf(MoviesListAdapter.Header(0, getString(R.string.movie_movies_list))) +
+                movies.map { moviesListMapper.map(it) }
 
 
     interface MovieClickListener {
