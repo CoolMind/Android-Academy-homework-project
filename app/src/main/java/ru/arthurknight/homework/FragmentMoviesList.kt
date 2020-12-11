@@ -8,14 +8,14 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import ru.arthurknight.homework.adapter.MovieAdapter
+import ru.arthurknight.homework.adapter.MoviesListAdapter
 
 /**
  * A fragment representing a list of movies.
  */
-class FragmentMoviesList : Fragment(), MovieAdapter.ItemClickListener {
+class FragmentMoviesList : Fragment(), MoviesListAdapter.ItemClickListener {
 
-    private var items: List<MovieAdapter.AbstractItem> = emptyList()
+    private var items: List<MoviesListAdapter.AbstractItem> = emptyList()
     private var listener: MovieClickListener? = null
 
     override fun onAttach(context: Context) {
@@ -24,7 +24,7 @@ class FragmentMoviesList : Fragment(), MovieAdapter.ItemClickListener {
         if (context is MovieClickListener) {
             listener = context
         } else {
-            throw RuntimeException("$context must implement MovieClickListener")
+            throw RuntimeException("$context must implement ${MoviesListAdapter.ItemClickListener::class.java.name}")
         }
     }
 
@@ -46,7 +46,7 @@ class FragmentMoviesList : Fragment(), MovieAdapter.ItemClickListener {
     }
 
     override fun onItemClick(id: Int) {
-        (items.firstOrNull { it.id == id } as? MovieAdapter.Movie)?.let {
+        (items.firstOrNull { it.id == id } as? MoviesListAdapter.Movie)?.let {
             listener?.onMovieCardClick(id)
         }
     }
@@ -54,9 +54,9 @@ class FragmentMoviesList : Fragment(), MovieAdapter.ItemClickListener {
     override fun onFavouriteClick(id: Int) {
     }
 
-    private fun getItems(): List<MovieAdapter.AbstractItem> = listOf(
-        MovieAdapter.Header(10, "Movies list"),
-        MovieAdapter.Movie(
+    private fun getItems(): List<MoviesListAdapter.AbstractItem> = listOf(
+        MoviesListAdapter.Header(10, "Movies list"),
+        MoviesListAdapter.Movie(
             11,
             R.drawable.movie_background,
             "13+",
@@ -71,7 +71,7 @@ class FragmentMoviesList : Fragment(), MovieAdapter.ItemClickListener {
 
     private fun createMoviesList(recyclerView: RecyclerView) {
         items = getItems()
-        val adapter = MovieAdapter(items)
+        val adapter = MoviesListAdapter(items)
         adapter.setClickListener(this)
 
         with(recyclerView) {

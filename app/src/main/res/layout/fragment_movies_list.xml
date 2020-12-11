@@ -12,4 +12,4 @@
     app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
     app:spanCount="2"
     tools:context=".MainActivity"
-    tools:listitem="@layout/row_movie_thumbnail" />
+    tools:listitem="@layout/view_holder_movie" />

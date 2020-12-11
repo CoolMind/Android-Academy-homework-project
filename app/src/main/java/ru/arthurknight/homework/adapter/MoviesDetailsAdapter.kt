@@ -1,4 +1,4 @@
-package ru.arthurknight.homework
+package ru.arthurknight.homework.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -7,8 +7,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.DrawableRes
 import androidx.recyclerview.widget.RecyclerView
+import ru.arthurknight.homework.R
 
-class MovieDetailsAdapter : RecyclerView.Adapter<MovieDetailsAdapter.ViewHolder>() {
+class MoviesDetailsAdapter : RecyclerView.Adapter<MoviesDetailsAdapter.ViewHolder>() {
 
     private val items: MutableList<Item> = mutableListOf()
 
@@ -24,7 +25,7 @@ class MovieDetailsAdapter : RecyclerView.Adapter<MovieDetailsAdapter.ViewHolder>
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(
-            R.layout.row_movie_actor,
+            R.layout.view_holder_actor,
             parent, false
         )
         return ViewHolder(view)

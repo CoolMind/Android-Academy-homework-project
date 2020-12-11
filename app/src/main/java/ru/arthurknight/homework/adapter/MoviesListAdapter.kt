@@ -10,8 +10,8 @@ import androidx.recyclerview.widget.RecyclerView
 import ru.arthurknight.homework.R
 import ru.arthurknight.homework.util.DrawableUtil.setSvgColor
 
-class MovieAdapter(private val values: List<AbstractItem>) :
-    RecyclerView.Adapter<MovieAdapter.AbstractViewHolder>() {
+class MoviesListAdapter(private val values: List<AbstractItem>) :
+    RecyclerView.Adapter<MoviesListAdapter.AbstractViewHolder>() {
 
     private var listener: ItemClickListener? = null
 
@@ -24,8 +24,8 @@ class MovieAdapter(private val values: List<AbstractItem>) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AbstractViewHolder {
         val layout = when (viewType) {
-            ViewType.HEADER.ordinal -> R.layout.row_movie_header
-            ViewType.MOVIE.ordinal -> R.layout.row_movie_thumbnail
+            ViewType.HEADER.ordinal -> R.layout.view_holder_movies_header
+            ViewType.MOVIE.ordinal -> R.layout.view_holder_movie
             else -> throw IllegalStateException("Unknown view type $viewType")
         }
         val view = LayoutInflater.from(parent.context).inflate(layout, parent, false)

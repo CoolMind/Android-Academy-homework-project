@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
+import ru.arthurknight.homework.adapter.MoviesDetailsAdapter
 import ru.arthurknight.homework.common.divider.DividerItemDecoration
 import ru.arthurknight.homework.util.DrawableUtil
 
@@ -42,12 +43,12 @@ class FragmentMoviesDetails : Fragment() {
         context?.let {
             divider.setDrawable(DrawableUtil.getDrawable(it, R.drawable.movie_list_divider))
         }
-        val adapter = MovieDetailsAdapter()
+        val adapter = MoviesDetailsAdapter()
         val items = listOf(
-            MovieDetailsAdapter.Item(0, R.drawable.actor1, "Robert Downey Jr."),
-            MovieDetailsAdapter.Item(1, R.drawable.actor2, "Chris Evans"),
-            MovieDetailsAdapter.Item(2, R.drawable.actor3, "Mark Ruffalo"),
-            MovieDetailsAdapter.Item(3, R.drawable.actor4, "Chris Hemsworth"),
+            MoviesDetailsAdapter.Item(0, R.drawable.actor1, "Robert Downey Jr."),
+            MoviesDetailsAdapter.Item(1, R.drawable.actor2, "Chris Evans"),
+            MoviesDetailsAdapter.Item(2, R.drawable.actor3, "Mark Ruffalo"),
+            MoviesDetailsAdapter.Item(3, R.drawable.actor4, "Chris Hemsworth"),
         )
         adapter.setItems(items)
         with(actorsList) {
