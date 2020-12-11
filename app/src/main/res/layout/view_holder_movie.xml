@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:background="@drawable/movie_thumbnail_border"
     tools:context=".MainActivity"
-    tools:layout_width="150dp">
+    tools:layout_width="180dp">
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/movie_image"
@@ -16,11 +16,11 @@
         android:adjustViewBounds="true"
         android:contentDescription="@null"
         android:scaleType="centerCrop"
-        android:src="@drawable/movie_background"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:shapeAppearanceOverlay="@style/MovieThumbnailImageView.CornerRadius" />
+        app:shapeAppearanceOverlay="@style/MovieThumbnailImageView.CornerRadius"
+        tools:src="@drawable/movie_background" />
 
     <View
         android:id="@+id/movie_image_gradient"
@@ -85,10 +85,10 @@
         android:minHeight="8dp"
         android:numStars="5"
         android:progressDrawable="@drawable/movie_thumbnail_rating_bar"
-        android:rating="4"
         android:stepSize="0.5"
         app:layout_constraintBottom_toBottomOf="@id/movie_image"
-        app:layout_constraintStart_toStartOf="@id/guideline_left" />
+        app:layout_constraintStart_toStartOf="@id/guideline_left"
+        tools:rating="4" />
 
     <TextView
         android:id="@+id/movie_reviews"
@@ -112,7 +112,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:maxLines="2"
+        android:ellipsize="end"
+        android:maxLines="1"
         android:textAppearance="@style/RobotoWeight900"
         android:textColor="@color/whisper"
         android:textSize="14sp"
