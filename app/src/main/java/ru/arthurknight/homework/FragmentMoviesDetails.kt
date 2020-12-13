@@ -41,7 +41,7 @@ class FragmentMoviesDetails : Fragment() {
         val actorsList = view.findViewById<RecyclerView>(R.id.movie_actors_list)
         val divider = DividerItemDecoration(LinearLayout.HORIZONTAL, false)
         context?.let {
-            divider.setDrawable(DrawableUtil.getDrawable(it, R.drawable.movie_list_divider))
+            divider.setDrawable(DrawableUtil.getDrawable(it, R.drawable.movie_actors_divider))
         }
         val adapter = MoviesDetailsAdapter()
         val items = listOf(

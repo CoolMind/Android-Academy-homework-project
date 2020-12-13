@@ -9,9 +9,11 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ru.arthurknight.homework.adapter.MoviesListAdapter
+import ru.arthurknight.homework.common.divider.GridDividerItemDecoration
 import ru.arthurknight.homework.mapper.MoviesListMapper
 import ru.arthurknight.homework.model.Movie
 import ru.arthurknight.homework.repository.Repository
+import ru.arthurknight.homework.util.DrawableUtil
 
 /**
  * A fragment representing a list of movies.
@@ -73,23 +75,30 @@ class FragmentMoviesList : Fragment(), MoviesListAdapter.ItemClickListener {
             setClickListener(this@FragmentMoviesList)
         }
 
+        val divider = GridDividerItemDecoration()
+        context?.let {
+            divider.setDrawable(DrawableUtil.getDrawable(it, R.drawable.movie_thumbnails_divider))
+        }
+        divider.skipHeaderDivider = true
         with(recyclerView) {
             this.layoutManager = layoutManager
             this.adapter = adapter
+            addItemDecoration(divider)
             setHasFixedSize(true)
         }
         // Выделение целой строки для заголовка.
-        val layoutManager = recyclerView.layoutManager as GridLayoutManager
-        layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
-            override fun getSpanSize(position: Int): Int =
-                if (adapter.isHeader(position)) layoutManager.spanCount else 1
+        (recyclerView.layoutManager as? GridLayoutManager)?.let { layoutManager ->
+            val spanCount = layoutManager.spanCount
+            layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+                override fun getSpanSize(position: Int): Int =
+                    if (adapter.isHeader(position)) spanCount else 1
+            }
         }
     }
 
     private fun getItems(movies: List<Movie>): List<MoviesListAdapter.AbstractItem> =
         listOf(MoviesListAdapter.Header(0, getString(R.string.movie_movies_list))) +
                 movies.map { moviesListMapper.map(it) }
-
 
     interface MovieClickListener {
         fun onMovieCardClick(id: Int)
