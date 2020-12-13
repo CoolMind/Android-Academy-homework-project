@@ -6,15 +6,17 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import ru.arthurknight.homework.R
 import ru.arthurknight.homework.util.DrawableUtil.setSvgColor
 
-class MoviesListAdapter(private val values: List<AbstractItem>) :
-    RecyclerView.Adapter<MoviesListAdapter.AbstractViewHolder>() {
+class MoviesListAdapter : RecyclerView.Adapter<MoviesListAdapter.AbstractViewHolder>() {
 
     private var listener: ItemClickListener? = null
+    private val diffCallback = DiffUtilCallback()
+    private var items = mutableListOf<AbstractItem>()
 
 
     fun setClickListener(listener: ItemClickListener?) {
@@ -22,6 +24,26 @@ class MoviesListAdapter(private val values: List<AbstractItem>) :
     }
 
     fun isHeader(position: Int): Boolean = getItemViewType(position) == ViewType.HEADER.ordinal
+
+    fun getItem(id: Int): AbstractItem = items.first { it.id == id }
+
+    fun setItem(item: AbstractItem) {
+        val index = items.indexOfFirst { it.id == item.id }
+        if (index != -1) {
+            items[index] = item
+            notifyItemChanged(index)
+        }
+    }
+
+    fun setItems(values: List<AbstractItem>) {
+        diffCallback.setItems(items, values)
+        val chatsDiffResult = DiffUtil.calculateDiff(diffCallback)
+
+        chatsDiffResult.dispatchUpdatesTo(this)
+
+        items.clear()
+        items.addAll(values as MutableList<AbstractItem>)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AbstractViewHolder {
         val layout = when (viewType) {
@@ -38,15 +60,17 @@ class MoviesListAdapter(private val values: List<AbstractItem>) :
     }
 
     override fun onBindViewHolder(holder: AbstractViewHolder, position: Int) {
-        val item = values[position]
+        val item = items[position]
         updateItem(holder, item)
     }
 
-    override fun getItemId(position: Int): Long = values[position].id.toLong()
+    override fun getItemId(position: Int): Long = items[position].id.toLong()
 
-    override fun getItemCount(): Int = values.size
+    override fun getItemCount(): Int = items.size
 
-    override fun getItemViewType(position: Int): Int = values[position].viewType.ordinal
+    override fun getItemViewType(position: Int): Int {
+        return items[position].viewType.ordinal
+    }
 
     private fun updateItem(holder: AbstractViewHolder, item: AbstractItem) {
         when (holder) {
@@ -132,4 +156,27 @@ class MoviesListAdapter(private val values: List<AbstractItem>) :
     enum class ViewType {
         HEADER, MOVIE
     }
+
+    private class DiffUtilCallback : DiffUtil.Callback() {
+
+        private var oldItems: List<AbstractItem> = emptyList()
+        private var newItems: List<AbstractItem> = emptyList()
+
+        fun setItems(oldItems: List<AbstractItem>, newItems: List<AbstractItem>) {
+            this.oldItems = oldItems
+            this.newItems = newItems
+        }
+
+        override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
+            oldItems[oldItemPosition].id == newItems[newItemPosition].id
+
+        override fun getOldListSize(): Int = oldItems.size
+
+        override fun getNewListSize(): Int = newItems.size
+
+        override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+            return oldItems[oldItemPosition] == newItems[newItemPosition]
+        }
+    }
+
 }

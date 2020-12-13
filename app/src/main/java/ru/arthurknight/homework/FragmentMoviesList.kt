@@ -20,10 +20,11 @@ import ru.arthurknight.homework.util.DrawableUtil
  */
 class FragmentMoviesList : Fragment(), MoviesListAdapter.ItemClickListener {
 
-    private var items: List<MoviesListAdapter.AbstractItem> = emptyList()
+    private var items = mutableListOf<MoviesListAdapter.AbstractItem>()
     private var listener: MovieClickListener? = null
     private lateinit var repository: Repository
     private lateinit var moviesListMapper: MoviesListMapper
+    private lateinit var adapter: MoviesListAdapter
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -40,7 +41,7 @@ class FragmentMoviesList : Fragment(), MoviesListAdapter.ItemClickListener {
 
         repository = Repository()
         moviesListMapper = MoviesListMapper(resources)
-        items = getItems(repository.getMovies())
+        items = getItems(repository.getMovies()).toMutableList()
     }
 
     override fun onCreateView(
@@ -67,10 +68,16 @@ class FragmentMoviesList : Fragment(), MoviesListAdapter.ItemClickListener {
     }
 
     override fun onFavouriteClick(id: Int) {
+        val item = adapter.getItem(id) as MoviesListAdapter.Movie
+        val position = items.indexOf(item)
+        val copy = item.copy(isFavourite = !item.isFavourite)
+        items[position] = copy
+        adapter.setItem(copy)
     }
 
     private fun createMoviesList(recyclerView: RecyclerView) {
-        val adapter = MoviesListAdapter(items).apply {
+        adapter = MoviesListAdapter().apply {
+            setItems(items)
             setHasStableIds(true)
             setClickListener(this@FragmentMoviesList)
         }
@@ -82,7 +89,7 @@ class FragmentMoviesList : Fragment(), MoviesListAdapter.ItemClickListener {
         divider.skipHeaderDivider = true
         with(recyclerView) {
             this.layoutManager = layoutManager
-            this.adapter = adapter
+            this.adapter = this@FragmentMoviesList.adapter
             addItemDecoration(divider)
             setHasFixedSize(true)
         }
