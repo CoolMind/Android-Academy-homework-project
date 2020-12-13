@@ -72,7 +72,7 @@ class FragmentMoviesList : Fragment(), MoviesListAdapter.ItemClickListener {
         val position = items.indexOf(item)
         val copy = item.copy(isFavourite = !item.isFavourite)
         items[position] = copy
-        adapter.setItem(copy)
+        adapter.setItems(items)
     }
 
     private fun createMoviesList(recyclerView: RecyclerView) {
