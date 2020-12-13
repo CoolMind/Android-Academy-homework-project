@@ -99,6 +99,8 @@ class Repository {
         )
     }
 
+    fun getMovie(id: Int): Movie? = getMovies().firstOrNull { it.id == id }
+
     /**
      * Список актёров.
      */
