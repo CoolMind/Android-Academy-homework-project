@@ -4,17 +4,38 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
-import ru.arthurknight.homework.adapter.MoviesDetailsAdapter
+import com.bumptech.glide.Glide
+import ru.arthurknight.homework.adapter.MovieActorsAdapter
 import ru.arthurknight.homework.common.divider.DividerItemDecoration
+import ru.arthurknight.homework.mapper.ActorMapper
+import ru.arthurknight.homework.model.Movie
+import ru.arthurknight.homework.repository.Repository
 import ru.arthurknight.homework.util.DrawableUtil
 
 class FragmentMoviesDetails : Fragment() {
+
+    private lateinit var repository: Repository
+    private lateinit var actorMapper: ActorMapper
+    private lateinit var movie: Movie
+    private lateinit var actors: List<MovieActorsAdapter.Actor>
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        val id = requireArguments().getInt(ARG_MOVIE_ID)
+
+        repository = Repository()
+        actorMapper = ActorMapper()
+        movie = repository.getMovie(id)!!
+        actors = movie.actors.map { actorMapper.map(it) }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -23,12 +44,17 @@ class FragmentMoviesDetails : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_movies_details, container, false)
 
-        view.findViewById<TextView>(R.id.movie_age).text = "13+"
-        view.findViewById<TextView>(R.id.movie_title).text = "Avengers:\nEnd Game"
-        view.findViewById<TextView>(R.id.movie_genre).text = "Action, Adventure, Fantasy"
-        view.findViewById<TextView>(R.id.movie_reviews).text = "125 Reviews"
-        view.findViewById<TextView>(R.id.movie_description).text =
-            "After the devastating events of Avengers: Infinity War, the universe is in ruins. With the help of remaining allies, the Avengers assemble once more in order to reverse Thanos' actions and restore balance to the universe."
+        view.findViewById<ImageView>(R.id.movie_image).let { background ->
+            Glide.with(background)
+                .load(movie.detailsUrl)
+                .into(background)
+        }
+        view.findViewById<TextView>(R.id.movie_age).text = movie.age
+        view.findViewById<TextView>(R.id.movie_title).text = movie.name
+        view.findViewById<TextView>(R.id.movie_genre).text = movie.genre
+        view.findViewById<TextView>(R.id.movie_reviews).text =
+            resources.getQuantityString(R.plurals.reviews_plurals, movie.reviews, movie.reviews)
+        view.findViewById<TextView>(R.id.movie_description).text = movie.description
         createActorsList(view)
 
         view.findViewById<TextView>(R.id.back_button)
@@ -43,14 +69,10 @@ class FragmentMoviesDetails : Fragment() {
         context?.let {
             divider.setDrawable(DrawableUtil.getDrawable(it, R.drawable.movie_actors_divider))
         }
-        val adapter = MoviesDetailsAdapter()
-        val items = listOf(
-            MoviesDetailsAdapter.Item(0, R.drawable.actor1, "Robert Downey Jr."),
-            MoviesDetailsAdapter.Item(1, R.drawable.actor2, "Chris Evans"),
-            MoviesDetailsAdapter.Item(2, R.drawable.actor3, "Mark Ruffalo"),
-            MoviesDetailsAdapter.Item(3, R.drawable.actor4, "Chris Hemsworth"),
-        )
-        adapter.setItems(items)
+        val adapter = MovieActorsAdapter().apply {
+            setHasStableIds(true)
+            setItems(actors)
+        }
         with(actorsList) {
             this.adapter = adapter
             addItemDecoration(divider)
@@ -64,12 +86,12 @@ class FragmentMoviesDetails : Fragment() {
 
         val TAG: String = FragmentMoviesDetails::class.java.name
 
-        private const val ARG_ID = "ARG_ID"
+        private const val ARG_MOVIE_ID = "ARG_MOVIE_ID"
 
         fun newInstance(id: Int) =
             FragmentMoviesDetails().apply {
                 arguments = Bundle().apply {
-                    putInt(ARG_ID, id)
+                    putInt(ARG_MOVIE_ID, id)
                 }
             }
     }
