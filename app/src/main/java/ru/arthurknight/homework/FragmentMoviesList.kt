@@ -6,13 +6,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ru.arthurknight.homework.adapter.MoviesListAdapter
 import ru.arthurknight.homework.common.divider.GridDividerItemDecoration
+import ru.arthurknight.homework.data.Movie
+import ru.arthurknight.homework.data.loadMovies
 import ru.arthurknight.homework.mapper.MoviesListMapper
-import ru.arthurknight.homework.model.Movie
-import ru.arthurknight.homework.repository.Repository
 import ru.arthurknight.homework.util.DrawableUtil
 
 /**
@@ -20,9 +21,10 @@ import ru.arthurknight.homework.util.DrawableUtil
  */
 class FragmentMoviesList : Fragment(), MoviesListAdapter.ItemClickListener {
 
-    private var items = mutableListOf<MoviesListAdapter.AbstractItem>()
+    private lateinit var movies: List<Movie>
+    private lateinit var items: MutableList<MoviesListAdapter.AbstractItem>
+    private var isDataLoaded = false
     private var listener: MovieClickListener? = null
-    private lateinit var repository: Repository
     private lateinit var moviesListMapper: MoviesListMapper
     private lateinit var adapter: MoviesListAdapter
 
@@ -39,9 +41,7 @@ class FragmentMoviesList : Fragment(), MoviesListAdapter.ItemClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        repository = Repository()
         moviesListMapper = MoviesListMapper(resources)
-        items = getItems(repository.getMovies()).toMutableList()
     }
 
     override fun onCreateView(
@@ -52,7 +52,16 @@ class FragmentMoviesList : Fragment(), MoviesListAdapter.ItemClickListener {
 
         val recyclerView: RecyclerView = view.findViewById(R.id.list)
 
-        createMoviesList(recyclerView)
+        if (isDataLoaded) {
+            createMoviesList(recyclerView)
+        } else {
+            lifecycleScope.launchWhenStarted {
+                movies = loadMovies(requireContext())
+                items = getItems(movies).toMutableList()
+                isDataLoaded = true
+                createMoviesList(recyclerView)
+            }
+        }
         return view
     }
 
@@ -62,17 +71,19 @@ class FragmentMoviesList : Fragment(), MoviesListAdapter.ItemClickListener {
     }
 
     override fun onItemClick(id: Int) {
-        (items.firstOrNull { it.id == id } as? MoviesListAdapter.Movie)?.let {
-            listener?.onMovieCardClick(id)
+        if (isDataLoaded) {
+            movies.firstOrNull { it.id == id }?.let { listener?.onMovieCardClick(it) }
         }
     }
 
     override fun onFavouriteClick(id: Int) {
-        val item = adapter.getItem(id) as MoviesListAdapter.Movie
-        val position = items.indexOf(item)
-        val copy = item.copy(isFavourite = !item.isFavourite)
-        items[position] = copy
-        adapter.setItems(items)
+        if (isDataLoaded) {
+            val position = items.indexOfFirst { it.id == id }
+            val item = items[position] as MoviesListAdapter.Movie
+            val copy = item.copy(isFavourite = !item.isFavourite)
+            items[position] = copy
+            adapter.setItems(items)
+        }
     }
 
     private fun createMoviesList(recyclerView: RecyclerView) {
@@ -108,7 +119,7 @@ class FragmentMoviesList : Fragment(), MoviesListAdapter.ItemClickListener {
                 movies.map { moviesListMapper.map(it) }
 
     interface MovieClickListener {
-        fun onMovieCardClick(id: Int)
+        fun onMovieCardClick(movie: Movie)
     }
 
     companion object {

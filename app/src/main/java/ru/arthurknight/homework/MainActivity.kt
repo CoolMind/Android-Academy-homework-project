@@ -2,6 +2,7 @@ package ru.arthurknight.homework
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import ru.arthurknight.homework.data.Movie
 
 class MainActivity : AppCompatActivity(), FragmentMoviesList.MovieClickListener {
 
@@ -29,11 +30,11 @@ class MainActivity : AppCompatActivity(), FragmentMoviesList.MovieClickListener 
 //        }
 //    }
 
-    override fun onMovieCardClick(id: Int) {
+    override fun onMovieCardClick(movie: Movie) {
         supportFragmentManager.beginTransaction()
             .replace(
                 R.id.container,
-                FragmentMoviesDetails.newInstance(id),
+                FragmentMoviesDetails.newInstance(movie),
                 FragmentMoviesDetails.TAG
             )
             .addToBackStack(FragmentMoviesDetails.TAG)

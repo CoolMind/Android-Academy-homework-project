@@ -14,14 +14,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import ru.arthurknight.homework.adapter.MovieActorsAdapter
 import ru.arthurknight.homework.common.divider.DividerItemDecoration
+import ru.arthurknight.homework.data.Movie
 import ru.arthurknight.homework.mapper.ActorMapper
-import ru.arthurknight.homework.model.Movie
-import ru.arthurknight.homework.repository.Repository
 import ru.arthurknight.homework.util.DrawableUtil
 
 class FragmentMoviesDetails : Fragment() {
 
-    private lateinit var repository: Repository
     private lateinit var actorMapper: ActorMapper
     private lateinit var movie: Movie
     private lateinit var actors: List<MovieActorsAdapter.Actor>
@@ -29,11 +27,9 @@ class FragmentMoviesDetails : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val id = requireArguments().getInt(ARG_MOVIE_ID)
+        movie = requireArguments().getSerializable(ARG_MOVIE) as Movie
 
-        repository = Repository()
         actorMapper = ActorMapper()
-        movie = repository.getMovie(id)!!
         actors = movie.actors.map { actorMapper.map(it) }
     }
 
@@ -46,15 +42,20 @@ class FragmentMoviesDetails : Fragment() {
 
         view.findViewById<ImageView>(R.id.movie_image).let { background ->
             Glide.with(background)
-                .load(movie.detailsUrl)
+                .load(movie.backdrop)
                 .into(background)
         }
-        view.findViewById<TextView>(R.id.movie_age).text = movie.age
-        view.findViewById<TextView>(R.id.movie_title).text = movie.name
-        view.findViewById<TextView>(R.id.movie_genre).text = movie.genre
-        view.findViewById<TextView>(R.id.movie_reviews).text =
-            resources.getQuantityString(R.plurals.reviews_plurals, movie.reviews, movie.reviews)
-        view.findViewById<TextView>(R.id.movie_description).text = movie.description
+        view.findViewById<TextView>(R.id.movie_age).text =
+            getString(R.string.movie_age, movie.minimumAge)
+        view.findViewById<TextView>(R.id.movie_title).text = movie.title
+        view.findViewById<TextView>(R.id.movie_genre).text =
+            movie.genres.joinToString(", ") { it.name }
+        view.findViewById<TextView>(R.id.movie_reviews).text = resources.getQuantityString(
+            R.plurals.reviews_plurals,
+            movie.numberOfRatings,
+            movie.numberOfRatings
+        )
+        view.findViewById<TextView>(R.id.movie_description).text = movie.overview
         createActorsList(view)
 
         view.findViewById<TextView>(R.id.back_button)
@@ -64,6 +65,10 @@ class FragmentMoviesDetails : Fragment() {
     }
 
     private fun createActorsList(view: View) {
+        val cast = view.findViewById<TextView>(R.id.movie_cast)
+        if (actors.isEmpty()) {
+            cast.visibility = View.GONE
+        }
         val actorsList = view.findViewById<RecyclerView>(R.id.movie_actors_list)
         val divider = DividerItemDecoration(LinearLayout.HORIZONTAL, false)
         context?.let {
@@ -86,12 +91,12 @@ class FragmentMoviesDetails : Fragment() {
 
         val TAG: String = FragmentMoviesDetails::class.java.name
 
-        private const val ARG_MOVIE_ID = "ARG_MOVIE_ID"
+        private const val ARG_MOVIE = "ARG_MOVIE"
 
-        fun newInstance(id: Int) =
+        fun newInstance(movie: Movie) =
             FragmentMoviesDetails().apply {
                 arguments = Bundle().apply {
-                    putInt(ARG_MOVIE_ID, id)
+                    putSerializable(ARG_MOVIE, movie)
                 }
             }
     }
