@@ -16,10 +16,6 @@ class GridDividerItemDecoration : RecyclerView.ItemDecoration() {
     private val bounds = Rect()
     private var horizontalSpacing = 0
     private var verticalSpacing = 0
-    private val headerPositionsList = mutableListOf(-1) // Позиции заголовков.
-    private var headerPositionsIndex = 0
-    private var prevHeaderPosition = headerPositionsList[0]
-    private var nextHeaderPosition = headerPositionsList[0]
 
     fun setDrawable(drawable: Drawable) {
         divider = drawable
@@ -58,35 +54,10 @@ class GridDividerItemDecoration : RecyclerView.ItemDecoration() {
         val positionalSpanSize = gridLayoutManager.spanSizeLookup.getSpanSize(position)
 
         val isHeader = positionalSpanSize == spanCount
-        if (isHeader) {
-            // Добавим позицию заголовка в список.
-            if (!headerPositionsList.contains(position)) {
-                headerPositionsList += position
-                headerPositionsIndex++
+        // Заголовок не нужно выравнивать.
+        if (skipHeaderDivider && isHeader) return
 
-                prevHeaderPosition = position
-                nextHeaderPosition = prevHeaderPosition
-            }
-            // Заголовок не нужно выравнивать.
-            if (skipHeaderDivider) return
-        }
-
-        // Найдём ближайшие позиции заголовков, так чтобы prevHeaderPosition <= position <= nextHeaderPosition.
-        if (position < prevHeaderPosition) {
-            while (headerPositionsIndex > 0) {
-                nextHeaderPosition = prevHeaderPosition
-                prevHeaderPosition = headerPositionsList[--headerPositionsIndex]
-                if (prevHeaderPosition <= position) break
-            }
-        } else if (position > nextHeaderPosition) {
-            while (headerPositionsIndex < headerPositionsList.size - 1) {
-                prevHeaderPosition = nextHeaderPosition
-                nextHeaderPosition = headerPositionsList[++headerPositionsIndex]
-                if (position <= nextHeaderPosition) break
-            }
-        }
-
-        val isRightInRow = isHeader || (position - prevHeaderPosition) % spanCount == 0
+        val isRightInRow = isHeader || position % spanCount == 0
 
         outRect.top = verticalSpacing
         outRect.left = 0
