@@ -24,4 +24,7 @@
         <item quantity="other">%1$d reviews</item>
     </plurals>
 
+    <string name="movie_age">%1$d+</string>
+    <string name="movie_duration">%1$d min</string>
+
 </resources>
