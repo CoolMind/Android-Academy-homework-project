@@ -1,22 +1,27 @@
 package ru.arthurknight.homework.adapter
 
+import android.graphics.Bitmap
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
+import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.BitmapImageViewTarget
 import ru.arthurknight.homework.R
 import ru.arthurknight.homework.util.DrawableUtil.setSvgColor
+
 
 class MoviesListAdapter : RecyclerView.Adapter<MoviesListAdapter.AbstractViewHolder>() {
 
     private var listener: ItemClickListener? = null
     private val diffCallback = DiffUtilCallback()
     private var items = mutableListOf<AbstractItem>()
+    private var cornerRadius: Float = -1f
 
 
     fun setClickListener(listener: ItemClickListener?) {
@@ -68,9 +73,7 @@ class MoviesListAdapter : RecyclerView.Adapter<MoviesListAdapter.AbstractViewHol
 
     override fun getItemCount(): Int = items.size
 
-    override fun getItemViewType(position: Int): Int {
-        return items[position].viewType.ordinal
-    }
+    override fun getItemViewType(position: Int): Int = items[position].viewType.ordinal
 
     private fun updateItem(holder: AbstractViewHolder, item: AbstractItem) {
         when (holder) {
@@ -87,9 +90,27 @@ class MoviesListAdapter : RecyclerView.Adapter<MoviesListAdapter.AbstractViewHol
 
     private fun updateMovie(holder: MovieVH, item: Movie) {
         with(holder) {
+            if (cornerRadius < 0) {
+                cornerRadius =
+                    holder.itemView.resources.getDimensionPixelSize(R.dimen.movie_thumbnail_corner_radius)
+                        .toFloat()
+            }
             Glide.with(background)
+                .asBitmap()
                 .load(item.pictureUrl)
-                .into(background)
+                .centerCrop()
+                .into(object : BitmapImageViewTarget(background) {
+                    override fun setResource(resource: Bitmap?) {
+                        // Закругление углов сверху.
+                        val circularBitmapDrawable = RoundedBitmapDrawableFactory.create(
+                            holder.itemView.resources, resource
+                        ).apply {
+                            this.cornerRadius = this@MoviesListAdapter.cornerRadius
+                            setAntiAlias(true)
+                        }
+                        background.setImageDrawable(circularBitmapDrawable)
+                    }
+                })
             age.text = item.age
             setFavouriteImage(holder.favourite, item.isFavourite)
             genre.text = item.genre

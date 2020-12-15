@@ -8,7 +8,7 @@
     tools:context=".MainActivity"
     tools:layout_width="180dp">
 
-    <com.google.android.material.imageview.ShapeableImageView
+    <ImageView
         android:id="@+id/movie_image"
         android:layout_width="0dp"
         android:layout_height="249dp"
@@ -19,7 +19,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:shapeAppearanceOverlay="@style/MovieThumbnailImageView.CornerRadius"
         tools:src="@drawable/movie_background" />
 
     <View
