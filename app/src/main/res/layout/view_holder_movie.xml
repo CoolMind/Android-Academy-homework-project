@@ -22,7 +22,6 @@
         tools:src="@drawable/movie_background" />
 
     <View
-        android:id="@+id/movie_image_gradient"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:background="@drawable/movie_gradient"
