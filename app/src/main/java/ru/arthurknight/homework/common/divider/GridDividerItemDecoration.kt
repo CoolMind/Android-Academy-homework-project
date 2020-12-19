@@ -16,6 +16,7 @@ class GridDividerItemDecoration : RecyclerView.ItemDecoration() {
     private val bounds = Rect()
     private var horizontalSpacing = 0
     private var verticalSpacing = 0
+    private var needLeftSpacing = false
 
     fun setDrawable(drawable: Drawable) {
         divider = drawable
@@ -49,19 +50,40 @@ class GridDividerItemDecoration : RecyclerView.ItemDecoration() {
     ) {
         val gridLayoutManager = parent.layoutManager as? GridLayoutManager ?: return
         val position = gridLayoutManager.getPosition(view)
-        if (position < 0) return
         val spanCount = gridLayoutManager.spanCount
-        val positionalSpanSize = gridLayoutManager.spanSizeLookup.getSpanSize(position)
 
-        val isHeader = positionalSpanSize == spanCount
-        // Заголовок не нужно выравнивать.
-        if (skipHeaderDivider && isHeader) return
-
-        val isRightInRow = isHeader || position % spanCount == 0
-
-        outRect.top = verticalSpacing
-        outRect.left = 0
-        outRect.right = if (isRightInRow) 0 else horizontalSpacing
+        val padding = horizontalSpacing  - horizontalSpacing / spanCount
+        val itemPosition = position + 1 // Добавляем позицию заголовка.
+        if (itemPosition < spanCount) {
+            outRect.top = 0
+        } else {
+            outRect.top = verticalSpacing
+        }
+        if (itemPosition % spanCount == 0) {
+            outRect.left = 0
+            outRect.right = padding
+            needLeftSpacing = true
+        } else if ((itemPosition + 1) % spanCount == 0) {
+            needLeftSpacing = false
+            outRect.right = 0
+            outRect.left = padding
+        } else if (needLeftSpacing) {
+            needLeftSpacing = false
+            outRect.left = horizontalSpacing - padding
+            if ((itemPosition + 2) % spanCount == 0) {
+                outRect.right = horizontalSpacing - padding
+            } else {
+                outRect.right = horizontalSpacing / 2
+            }
+        } else if ((itemPosition + 2) % spanCount == 0) {
+            needLeftSpacing = false
+            outRect.left = horizontalSpacing / 2
+            outRect.right = horizontalSpacing - padding
+        } else {
+            needLeftSpacing = false
+            outRect.left = horizontalSpacing / 2
+            outRect.right = horizontalSpacing / 2
+        }
         outRect.bottom = 0
     }
 }

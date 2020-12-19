@@ -28,12 +28,4 @@
         <item name="android:fontFamily">sans-serif-black</item>
     </style>
 
-    <!-- ShapeableImageView -->
-    <style name="MovieActorImageView.CornerRadius" parent="AppTheme">
-        <item name="cornerSize">@dimen/movie_actor_corner_radius</item>
-    </style>
-
-    <style name="MovieThumbnailImageView.CornerRadius" parent="AppTheme">
-        <item name="cornerSize">@dimen/movie_thumbnail_corner_radius</item>
-    </style>
 </resources>

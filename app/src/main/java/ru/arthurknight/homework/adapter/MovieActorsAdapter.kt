@@ -7,11 +7,14 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import ru.arthurknight.homework.R
 
 class MovieActorsAdapter : RecyclerView.Adapter<MovieActorsAdapter.ViewHolder>() {
 
     private val items: MutableList<Actor> = mutableListOf()
+    private var cornerRadius: Int = -1
 
     fun setItems(list: List<Actor>) {
         items.clear()
@@ -30,8 +33,13 @@ class MovieActorsAdapter : RecyclerView.Adapter<MovieActorsAdapter.ViewHolder>()
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = items[position]
         with(holder) {
+            if (cornerRadius < 0) {
+                cornerRadius =
+                    itemView.resources.getDimensionPixelSize(R.dimen.movie_actor_corner_radius)
+            }
             Glide.with(photo)
                 .load(item.photoUrl)
+                .transform(CenterCrop(), RoundedCorners(cornerRadius))
                 .into(photo)
             name.text = item.name
         }
