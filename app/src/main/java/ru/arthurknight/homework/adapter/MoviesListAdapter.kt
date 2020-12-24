@@ -41,11 +41,9 @@ class MoviesListAdapter : RecyclerView.Adapter<MoviesListAdapter.AbstractViewHol
     fun setItems(values: List<AbstractItem>) {
         diffCallback.setItems(items, values)
         val chatsDiffResult = DiffUtil.calculateDiff(diffCallback)
-
-        chatsDiffResult.dispatchUpdatesTo(this)
-
         items.clear()
-        items.addAll(values as MutableList<AbstractItem>)
+        items.addAll(values)
+        chatsDiffResult.dispatchUpdatesTo(this)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AbstractViewHolder {

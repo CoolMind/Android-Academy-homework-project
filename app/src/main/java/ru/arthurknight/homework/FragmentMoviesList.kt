@@ -97,7 +97,6 @@ class FragmentMoviesList : Fragment(), MoviesListAdapter.ItemClickListener {
         context?.let {
             divider.setDrawable(DrawableUtil.getDrawable(it, R.drawable.movie_thumbnails_divider))
         }
-        divider.skipHeaderDivider = true
         with(recyclerView) {
             this.layoutManager = layoutManager
             this.adapter = this@FragmentMoviesList.adapter

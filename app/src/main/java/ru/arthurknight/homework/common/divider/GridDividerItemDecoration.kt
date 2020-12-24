@@ -10,8 +10,6 @@ import kotlin.math.roundToInt
 
 class GridDividerItemDecoration : RecyclerView.ItemDecoration() {
 
-    var skipHeaderDivider = true
-
     private var divider: Drawable? = null
     private val bounds = Rect()
     private var horizontalSpacing = 0

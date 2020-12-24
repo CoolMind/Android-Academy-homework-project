@@ -4,25 +4,25 @@ import android.content.Context
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.SerialName
-import kotlinx.serialization.Serializable
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
+import java.io.Serializable
 
 
 private val jsonFormat = Json { ignoreUnknownKeys = true }
 
-@Serializable
-private class JsonGenre(val id: Int, val name: String)
+@kotlinx.serialization.Serializable
+private class JsonGenre(val id: Int, val name: String) : Serializable
 
-@Serializable
+@kotlinx.serialization.Serializable
 private class JsonActor(
     val id: Int,
     val name: String,
     @SerialName("profile_path")
     val profilePicture: String
-)
+) : Serializable
 
-@Serializable
+@kotlinx.serialization.Serializable
 private class JsonMovie(
     val id: Int,
     val title: String,
@@ -40,7 +40,7 @@ private class JsonMovie(
     val votesCount: Int,
     val overview: String,
     val adult: Boolean
-)
+) : Serializable
 
 private suspend fun loadGenres(context: Context): List<Genre> = withContext(Dispatchers.IO) {
     val data = readAssetFileToString(context, "genres.json")

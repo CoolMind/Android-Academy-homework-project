@@ -1,7 +1,9 @@
 package ru.arthurknight.homework.data
 
-import java.io.Serializable
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class Movie(
     val id: Int,
     val title: String,
@@ -14,4 +16,4 @@ data class Movie(
     val runtime: Int,
     val genres: List<Genre>,
     val actors: List<Actor>
-): Serializable
+) : Parcelable
