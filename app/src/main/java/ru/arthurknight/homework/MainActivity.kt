@@ -1,40 +1,43 @@
 package ru.arthurknight.homework
 
-import android.content.Intent
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.snackbar.Snackbar
+import ru.arthurknight.homework.data.Movie
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), FragmentMoviesList.MovieClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        setSupportActionBar(findViewById(R.id.toolbar))
 
-        findViewById<FloatingActionButton>(R.id.fab).setOnClickListener { view ->
-            Snackbar.make(view, "Открыть информацию о фильме", Snackbar.LENGTH_LONG)
-                .setAction("Action") { showMovieDetailsActivity() }.show()
+        if (savedInstanceState == null) {
+            supportFragmentManager.beginTransaction()
+                .replace(
+                    R.id.container,
+                    FragmentMoviesList.newInstance(),
+                    FragmentMoviesList.TAG
+                )
+                .commit()
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.menu_main, menu)
-        return true
-    }
+//    override fun onBackPressed() {
+//        val count = supportFragmentManager.backStackEntryCount
+//        if (count == 0) {
+//            super.onBackPressed()
+//        } else {
+//            supportFragmentManager.popBackStack()
+//        }
+//    }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.action_settings -> true
-            else -> super.onOptionsItemSelected(item)
-        }
-    }
-
-    private fun showMovieDetailsActivity() {
-        val intent = MovieDetailsActivity.newIntent(this)
-        startActivity(intent)
+    override fun onMovieCardClick(movie: Movie) {
+        supportFragmentManager.beginTransaction()
+            .replace(
+                R.id.container,
+                FragmentMoviesDetails.newInstance(movie),
+                FragmentMoviesDetails.TAG
+            )
+            .addToBackStack(FragmentMoviesDetails.TAG)
+            .commit()
     }
 }
